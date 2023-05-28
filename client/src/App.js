@@ -8,6 +8,10 @@ const [pais, setPais] = useState('')
 const [cargo, setCargo] = useState('')
 const [experiencia, setExperiencia] = useState(0)
 
+const mostrarDatos = () =>{
+  alert(nombre)
+}
+
   return (
     <div className="App">
     <div className='datos'>
@@ -41,7 +45,7 @@ const [experiencia, setExperiencia] = useState(0)
         setExperiencia (event.target.value)
       }}
       type='number' /></label>
-      <button>Registrar</button>
+      <button onClick={mostrarDatos}>Registrar</button>
 
     </div>
     </div>
