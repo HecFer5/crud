@@ -1,6 +1,8 @@
 import './App.css';
 import { useState } from 'react';
 import Axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 function App() {
@@ -36,49 +38,74 @@ function App() {
   /////// FIN LISTAR
 
   return (
-    <div className="App">
-      <div className='datos'>
-        <label>Nombre: <input
-          onChange={(event) => {
-            setNombre(event.target.value)
-          }}
-          type='text' /></label>
+    <div className="container">
+      <div className="App">
+        <div className='datos'>
 
-        <label>Edad: <input
-          onChange={(event) => {
-            setEdad(event.target.value)
-          }}
-          type='text' /></label>
+        </div>
+        <div className='lista'>
 
+          {
+            empleados.map((val, key) => {
+              return <div className=''> {val.nombre} {val.edad} {val.cargo} </div>
+            })
+          }
 
-        <label>País: <input
-          onChange={(event) => {
-            setPais(event.target.value)
-          }}
-          type='text' /></label>
-
-        <label>Cargo: <input
-          onChange={(event) => {
-            setCargo(event.target.value)
-          }}
-          type='text' /></label>
-
-        <label>Experiencia: <input
-          onChange={(event) => {
-            setExperiencia(event.target.value)
-          }}
-          type='number' /></label>
-        <button onClick={add}>Registrar</button>
+        </div>
       </div>
-      <div className='lista'>
-      
-        {
-          empleados.map((val, key) => {
-            return <div className=''> {val.nombre} { val.edad } { val.cargo } </div>
-          })
-        }
 
+
+      {/*  */}
+
+      <div className="card text-center">
+        <div className="card-header">
+          GESTION DE EMPLEADOS
+        </div>
+        <div className="card-body">
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon1">Nombre: </span>
+
+            <input type="text"
+              onChange={(event) => {
+                setNombre(event.target.value)
+              }}
+              className="form-control" placeholder="Apellido y nombre" aria-label="Username" aria-describedby="basic-addon1" />
+
+            <span className="input-group-text" id="basic-addon1">Edad: </span>
+            <input type="text"
+              onChange={(event) => {
+                setNombre(event.target.value)
+              }}
+              className="form-control" placeholder="Edad" aria-label="Username" aria-describedby="basic-addon1" />
+
+            <span className="input-group-text" id="basic-addon1">País: </span>
+            <input type="text"
+              onChange={(event) => {
+                setNombre(event.target.value)
+              }}
+              className="form-control" placeholder="País" aria-label="Username" aria-describedby="basic-addon1" />
+
+            <span className="input-group-text" id="basic-addon1">Cargo: </span>
+            <input type="text"
+              onChange={(event) => {
+                setNombre(event.target.value)
+              }}
+              className="form-control" placeholder="Cargo" aria-label="Username" aria-describedby="basic-addon1" />
+
+            <span className="input-group-text" id="basic-addon1">Experiencia: </span>
+            <input type="text"
+              onChange={(event) => {
+                setNombre(event.target.value)
+              }}
+              className="form-control" placeholder="Experiencia" aria-label="Username" aria-describedby="basic-addon1" />
+          </div>
+        </div>
+        <div className="card-footer text-body-secondary">
+          <button className='btn btn-primary' onClick={add}>Registrar</button>
+
+        </div>
       </div>
+
     </div>
   );
 }
