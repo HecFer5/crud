@@ -39,20 +39,7 @@ function App() {
 
   return (
     <div className="container">
-      <div className="App">
-        <div className='datos'>
 
-        </div>
-        <div className='lista'>
-
-          {
-            empleados.map((val, key) => {
-              return <div className=''> {val.nombre} {val.edad} {val.cargo} </div>
-            })
-          }
-
-        </div>
-      </div>
 
 
       {/*  */}
@@ -64,47 +51,74 @@ function App() {
         <div className="card-body">
           <div className="input-group mb-3">
             <span className="input-group-text" id="basic-addon1">Nombre: </span>
-
             <input type="text"
               onChange={(event) => {
                 setNombre(event.target.value)
               }}
               className="form-control" placeholder="Apellido y nombre" aria-label="Username" aria-describedby="basic-addon1" />
-
+            <div />
             <span className="input-group-text" id="basic-addon1">Edad: </span>
-            <input type="text"
+            <input type="number"
               onChange={(event) => {
-                setNombre(event.target.value)
+                setEdad(event.target.value)
               }}
               className="form-control" placeholder="Edad" aria-label="Username" aria-describedby="basic-addon1" />
-
+            <div />
             <span className="input-group-text" id="basic-addon1">País: </span>
             <input type="text"
               onChange={(event) => {
-                setNombre(event.target.value)
+                setPais(event.target.value)
               }}
               className="form-control" placeholder="País" aria-label="Username" aria-describedby="basic-addon1" />
-
+            <div />
             <span className="input-group-text" id="basic-addon1">Cargo: </span>
             <input type="text"
               onChange={(event) => {
-                setNombre(event.target.value)
+                setCargo(event.target.value)
               }}
               className="form-control" placeholder="Cargo" aria-label="Username" aria-describedby="basic-addon1" />
-
+            <div />
             <span className="input-group-text" id="basic-addon1">Experiencia: </span>
-            <input type="text"
+            <input type="number"
               onChange={(event) => {
-                setNombre(event.target.value)
+                setExperiencia(event.target.value)
               }}
               className="form-control" placeholder="Experiencia" aria-label="Username" aria-describedby="basic-addon1" />
           </div>
         </div>
         <div className="card-footer text-body-secondary">
           <button className='btn btn-primary' onClick={add}>Registrar</button>
+          <button className='btn btn-primary' onClick={getEmpleados}>Listar</button>
 
         </div>
       </div>
+
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Edad</th>
+            <th scope="col">País</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">Experiencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            empleados.map((val, key) => {
+              return <tr key={val.id }>
+                <td>{val.nombre} </td>
+                <td>{val.edad} </td>
+                <td>{val.pais} </td>  
+                <td>{val.cargo} </td>
+                <td>{val.experiencia} años </td>
+              </tr>
+            })
+          }
+
+        </tbody>
+      </table>
 
     </div>
   );
