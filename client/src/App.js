@@ -1,15 +1,25 @@
 import './App.css';
 import { useState } from 'react';
+import Axios from 'axios';
+
 
 function App() {
-const [nombre, setNombre] = useState('')
-const [edad, setEdad] = useState(0)
-const [pais, setPais] = useState('')
-const [cargo, setCargo] = useState('')
-const [experiencia, setExperiencia] = useState(0)
+const [nombre, setNombre] = useState('');
+const [edad, setEdad] = useState(0);
+const [pais, setPais] = useState('');
+const [cargo, setCargo] = useState('');
+const [experiencia, setExperiencia] = useState(0);
 
-const mostrarDatos = () =>{
-  alert(nombre)
+const add = () =>{
+  Axios.post("http://localhost:3001/create",{
+    nombre:nombre,
+    edad:edad,
+    pais:pais,
+    cargo:cargo,
+    experiencia:experiencia
+  }).then(()=>{
+    alert('Empleado registrado');
+  });
 }
 
   return (
@@ -45,7 +55,7 @@ const mostrarDatos = () =>{
         setExperiencia (event.target.value)
       }}
       type='number' /></label>
-      <button onClick={mostrarDatos}>Registrar</button>
+      <button onClick={add}>Registrar</button>
 
     </div>
     </div>
