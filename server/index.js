@@ -33,6 +33,19 @@ app.post("/create",(req, res) => {
 
 });
 
+/////////////// CONSULTA LISTADO GENERAL
+app.get("/empleados",(req, res) => {
+    db.query('SELECT * FROM  empleados_t',
+         (err, result) => {
+            if (err) {
+                console.log(err);
+            }else{
+                res.send(result);
+            }
+        }
+    );
+});
+////////////////// FIN CONSULTA LISTADO
 app.listen(3001, () => {
     console.log('Puerto 3001')
 })
