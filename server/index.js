@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     database: 'empleados'
 });
 
-app.post("/create",(req, res) => {
+app.post("/create", (req, res) => {
     const nombre = req.body.nombre;
     const edad = req.body.edad;
     const pais = req.body.pais;
@@ -24,7 +24,7 @@ app.post("/create",(req, res) => {
         [nombre, edad, pais, cargo, experiencia], (err, result) => {
             if (err) {
                 console.log(err);
-            }else{
+            } else {
                 res.send('Empleado registrado con éxito');
             }
         }
@@ -34,18 +34,41 @@ app.post("/create",(req, res) => {
 });
 
 /////////////// CONSULTA LISTADO GENERAL
-app.get("/empleados",(req, res) => {
+app.get("/empleados", (req, res) => {
     db.query('SELECT * FROM  empleados_t',
-         (err, result) => {
+        (err, result) => {
             if (err) {
                 console.log(err);
-            }else{
+            } else {
                 res.send(result);
             }
         }
     );
 });
 ////////////////// FIN CONSULTA LISTADO
+
+///////////////// ACRTUALIZAR
+app.put("/update", (req, res) => {
+    const id = req.body.id;
+    const nombre = req.body.nombre;
+    const edad = req.body.edad;
+    const pais = req.body.pais;
+    const cargo = req.body.cargo;
+    const experiencia = req.body.experiencia;
+
+    db.query('UPDATE empleados_t SET nombre=?, edad=?, pais=?, cargo=?, experiencia=? WHERE id=?',
+        [nombre, edad, pais, cargo, experiencia, id], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send('Empleado actualizado con éxito');
+            }
+        }
+    );
+
+
+});
+//////////////////FIN ACTUALIZAR
 app.listen(3001, () => {
     console.log('Puerto 3001')
 })
