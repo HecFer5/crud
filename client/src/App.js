@@ -3,14 +3,17 @@ import { useState } from 'react';
 import Axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import Swal from 'sweetalert2'
+
+
 
 
 function App() {
   const [nombre, setNombre] = useState('');
-  const [edad, setEdad] = useState(0);
+  const [edad, setEdad] = useState();
   const [pais, setPais] = useState('');
   const [cargo, setCargo] = useState('');
-  const [experiencia, setExperiencia] = useState(0);
+  const [experiencia, setExperiencia] = useState();
   const [id, setId] = useState(0);
 
   const [empleados, setEmpleados] = useState([]);
@@ -25,10 +28,57 @@ function App() {
       cargo: cargo,
       experiencia: experiencia
     }).then(() => {
-      alert('Empleado registrado');
       getEmpleados();
+      limpiarCampos();
+      Swal.fire({
+        title: '<strong> Registro exitoso </strong>',
+        html: '<i><strong>' + nombre + '</ strong> ha sido ingresado</i>',
+        icon: 'success',
+        timer: 2000
+      })
+    }).catch(function (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'No se logró ingresar el registro!',
+        footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error de Servidor. Intente más tarde":JSON.parse(JSON.stringify(error)).message
+      })
+      limpiarCampos();
     });
   }
+  /////// FIN AGREGAR
+  const update = () => {
+    Axios.put("http://localhost:3001/update", {
+      id: id,
+      nombre: nombre,
+      edad: edad,
+      pais: pais,
+      cargo: cargo,
+      experiencia: experiencia
+    }).then(() => {
+      getEmpleados();
+      limpiarCampos();
+      Swal.fire({
+        title: '<strong> ACTUALIZADO </strong>',
+        html: '<i><strong>' + nombre + '</ strong></i>',
+        icon: 'success',
+        timer: 2000
+
+      })
+    }).catch(function (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'No se logró actualizar el registro!',
+        footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error de Servidor. Intente más tarde":JSON.parse(JSON.stringify(error)).message
+      })
+    });
+  }
+  /////////////////ACTUALIZAR 
+
+  ////////////////////////////////
+
+  /////////////////// editar
 
   const editarEmpleado = (val) => {
     setEditar(true);
@@ -40,7 +90,8 @@ function App() {
     setExperiencia(val.experiencia);
     setId(val.id);
   }
-  /////// FIN AGREGAR
+
+  ///////////////////////////
 
   ////////////////////////////// LISTAR EMPLEADOS 
   const getEmpleados = () => {
@@ -49,6 +100,56 @@ function App() {
     });
   }
   /////// FIN LISTAR
+
+  //////////////LIMPIAR CAMPOS
+  const limpiarCampos = () => {
+    setNombre("");
+    setCargo("");
+    setEdad("");
+    setPais("");
+    setExperiencia("");
+    setId("");
+    setEditar(false);
+
+  }
+  /////////////////////////
+
+  /////////////////////////eliminar registro
+  const deleteReg = (val) => {
+    Swal.fire({
+      title: 'Está seguro?',
+      html: '<p>Va a eliminar el registro <strong>' + val.nombre + '</strong> de la lista?</p>',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.delete(`http://localhost:3001/delete/${val.id}`).then(() => {
+          getEmpleados();
+          limpiarCampos();
+          Swal.fire({
+            title: 'El registro ha sido eliminado.',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000
+          });
+        }).catch(function (error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No se logró eliminar el registro!',
+            footer: JSON.parse(JSON.stringify(error)).message==="Network Error"?"Error de Servidor. Intente más tarde":JSON.parse(JSON.stringify(error)).message
+          })
+        })
+
+      }
+    })
+
+  }
+
+  ////////////////////////////////////////
 
   return (
     <div className="container">
@@ -101,8 +202,17 @@ function App() {
         </div>
         <div className="card-footer text-body-secondary">
           <div className="btn-group" role="group" aria-label="Basic example">
-            <button type="button" className="btn btn-info" onClick={add}>Ingresar</button>
-            <button type="button" className="btn btn-danger" onClick={getEmpleados}>Listar</button>
+            {
+              editar ?
+                <div>
+                  <button type="button" className="btn btn-warning m-2" onClick={update}>Actualizar</button>
+                  <button type="button" className="btn btn-info m-2" onClick={limpiarCampos}>Cancelar</button>
+                </div>
+                : <button type="button" className="btn btn-info m2" onClick={add}>Ingresar</button>
+
+            }
+
+            <button type="button" className="btn btn-danger m-2" onClick={getEmpleados}>Listar</button>
           </div>
         </div>
       </div>
@@ -136,8 +246,10 @@ function App() {
                       onClick={() => {
                         editarEmpleado(val);
                       }}
-                      className="btn btn-info" >Editar</button>
-                    <button type="button" className="btn btn-danger">Eliminar</button>
+                      className="btn btn-info m-2" >Editar</button>
+                    <button type="button" onClick={() => {
+                      deleteReg(val);
+                    }} className="btn btn-danger m-2">Eliminar</button>
                   </div>
                 </td>
 
