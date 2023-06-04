@@ -25,7 +25,7 @@ app.post("/create", (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.send('Empleado registrado con éxito');
+                res.send(result);
             }
         }
     );
@@ -61,7 +61,7 @@ app.put("/update", (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.send('Empleado actualizado con éxito');
+                res.send(esult);
             }
         }
     );
@@ -69,6 +69,25 @@ app.put("/update", (req, res) => {
 
 });
 //////////////////FIN ACTUALIZAR
+
+/////////////////////ELIMINAR UN REGISTRO
+app.delete("/delete/:id", (req, res) => {
+    const id = req.params.id
+   
+
+    db.query('DELETE FROM empleados_t WHERE id=?',
+        [id], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        }
+    );
+
+
+});
+//////////////////////////FIN ELIMINAR
 app.listen(3001, () => {
     console.log('Puerto 3001')
 })
